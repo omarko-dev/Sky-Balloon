@@ -58,7 +58,7 @@ function drawBackground() {
 }
 
 function drawBalloon() {
-    if (balloon.visible) {
+    if (balloon && balloon.visible) {
         ctx.save();
         ctx.translate(balloon.x + balloon.width / 2, balloon.y + balloon.height / 2);
         ctx.rotate(balloon.angle);
@@ -68,7 +68,7 @@ function drawBalloon() {
 }
 
 function drawJet() {
-    if (jet.visible) {
+    if (jet && jet.visible) {
         ctx.save();
         ctx.translate(jet.x + jet.width / 2, jet.y + jet.height / 2);
         ctx.rotate(jet.angle);
@@ -91,6 +91,11 @@ function drawScore() {
 }
 
 function startGame() {
+    if (!balloon) {
+        console.error('Balloon is not initialized.');
+        return;
+    }
+
     menu.classList.add('hidden'); // Smoothly hide the menu
     setTimeout(() => {
         menu.style.display = 'none';
@@ -111,7 +116,7 @@ function updateGame() {
     // Draw the background
     drawBackground();
 
-    if (balloon.visible) {
+    if (balloon && balloon.visible) {
         // Apply acceleration based on keys pressed
         if (keys['KeyW']) balloon.vy -= acceleration;
         if (keys['KeyS']) balloon.vy += acceleration;
@@ -149,7 +154,7 @@ function updateGame() {
     }
 
     // Update jet position to track the balloon
-    if (jet.visible) {
+    if (jet && jet.visible) {
         const dx = balloon.x - jet.x;
         const dy = balloon.y - jet.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -212,16 +217,18 @@ function resetGame() {
     clearInterval(scoreInterval);
 
     // Hide balloon and jet
-    balloon.visible = false;
-    jet.visible = false;
+    if (balloon) balloon.visible = false;
+    if (jet) jet.visible = false;
 
     // Stop bullets
     bullets = [];
 
     // Move jet out of the frame
-    jet.vx = 0;
-    jet.vy = -5; // Move upwards
-    jet.y = -jet.height;
+    if (jet) {
+        jet.vx = 0;
+        jet.vy = -5; // Move upwards
+        jet.y = -jet.height;
+    }
 
     // Update last score
     lastScore = score;
@@ -247,6 +254,7 @@ function checkCollisions() {
     // Check collision between balloon and bullets
     bullets.forEach((bullet) => {
         if (
+            balloon &&
             bullet.x < balloon.x + balloon.width &&
             bullet.x + bullet.width > balloon.x &&
             bullet.y < balloon.y + balloon.height &&
@@ -264,6 +272,7 @@ function checkCollisions() {
         height: jet.height - 40 // Adjust hitbox size
     };
     if (
+        balloon &&
         jetHitbox.x < balloon.x + balloon.width &&
         jetHitbox.x + jetHitbox.width > balloon.x &&
         jetHitbox.y < balloon.y + balloon.height &&
@@ -275,10 +284,11 @@ function checkCollisions() {
     // Check collision between balloon and frame with a bit of tolerance
     const frameTolerance = 10; // Allow some tolerance before game over
     if (
-        balloon.x < -frameTolerance ||
+        balloon &&
+        (balloon.x < -frameTolerance ||
         balloon.x + balloon.width > canvas.width + frameTolerance ||
         balloon.y < -frameTolerance ||
-        balloon.y + balloon.height > canvas.height + frameTolerance
+        balloon.y + balloon.height > canvas.height + frameTolerance)
     ) {
         resetGame();
     }
