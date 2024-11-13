@@ -23,3 +23,7 @@ Check out the live demo of the game [here](https://sky-balloon.vercel.app/).
    - `D`: Move right
 3. Avoid obstacles and try to score as many points as possible.
 4. When the game is over, your last score will be displayed on the main menu.
+
+---
+
+[Original game](https://www.youtube.com/watch?v=UgPig4-eTrE&t)
