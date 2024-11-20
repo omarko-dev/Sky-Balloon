@@ -26,8 +26,8 @@
         }
         #gameContainer {
             position: relative;
-            width: 600px; /* Reduced width */
-            height: 700px; /* Increased height */
+            width: 700px; /* Width of the canvas */
+            height: 700px; /* Height of the canvas */
         }
         #gameCanvas {
             position: absolute;
@@ -44,7 +44,7 @@
             text-align: center;
             font-family: 'MazinDEMO-Black', sans-serif;
             color: white;
-            text-shadow: 3px 3px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000;
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000; /* Improved outline */
             z-index: 1; /* Ensure menu is above the background */
             transition: opacity 0.5s ease; /* Smooth transition */
         }
@@ -52,8 +52,9 @@
             opacity: 0;
         }
         #menu h1 {
-            font-size: 48px; /* Increased font size */
+            font-size: 60px; /* Increased font size */
             margin: 0;
+            white-space: nowrap; /* Ensure "Sky Balloon" is in one phrase */
         }
         #menu p {
             font-size: 24px;
@@ -80,7 +81,7 @@
 <body>
     <div id="gameContainer">
         <div id="backgroundImage"></div>
-        <canvas id="gameCanvas" width="600" height="700"></canvas>
+        <canvas id="gameCanvas" width="700" height="700"></canvas> <!-- Canvas size -->
         <div id="menu">
             <h1>Sky Balloon</h1>
             <p>Press Space to Start</p>
